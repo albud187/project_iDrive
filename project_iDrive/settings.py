@@ -11,17 +11,32 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.contrib import messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
+# admin codes contains SECRET_KEY and login info for sending emails
+# fill in admin_codes_blank.txt with your log in info and replace 'admin_codes.txt' with 'admin_codes_blank.txt on line 22'
+admin_codes_dir = os.path.join(BASE_DIR,'admin_codes.txt')
 
+codes = open(admin_codes_dir,'r')
+codes_content = codes.read()
+codes_content_list = codes_content.split('\n')
+codes_content_dict = {}
+for item in codes_content_list:
+    try:
+        KEY = item.split(':')[0]
+        VALUE = item.split(':')[1]
+        codes_content_dict[KEY]=VALUE
+    except:
+        pass
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0n-a_hr$qs64-=z8_cy*s4a!jdxg7in=el-sxc4hawo9gfc3y='
+SECRET_KEY = codes_content_dict['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -119,3 +134,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+EMAIL_HOST=codes_content_dict['EMAIL_HOST']
+EMAIL_HOST_USER=codes_content_dict['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD=codes_content_dict['EMAIL_HOST_PASSWORD']
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
+
+MESSAGE_TAGS={
+    messages.ERROR:'danger'
+}
