@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'app_accounts_auth',
+    'app_eqpt_records'
 ]
 
 MIDDLEWARE = [
