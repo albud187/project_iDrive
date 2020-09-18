@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.HomePage.as_view(), name ='home'),
     path('',include('app_accounts_auth.urls')),
+    path('',include('app_eqpt_records.urls'))
 ]

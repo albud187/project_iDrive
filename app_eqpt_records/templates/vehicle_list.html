@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block body_block %}
+
+<div class="container">
+  <div class="jumbotron">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">year</th>
+          <th scope="col">make</th>
+          <th scope="col">model</th>
+          <!-- <th scope="col">VIN</th> -->
+          <th scope="col">notes</th>
+          <th scope="col">records</th>
+
+        </tr>
+      </thead>
+  <tbody>
+    {% for vehicle in vehicles %}
+
+    <tr>
+      <td>{{vehicle.year}}</td>
+      <td>{{vehicle.vehicle_make}}</td>
+      <td>{{vehicle.vehicle_modeltype}}</td>
+      <!-- <td>{{vehicle.VINNumber}}</td> -->
+      <td><a href="">link to notes</a></td>
+      <td><a href="">link to records</a></td>
+    </tr>
+
+
+    {%endfor%}
+  </tbody>
+</table>
+  </div>
+</div>
+
+{% endblock %}
