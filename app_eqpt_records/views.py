@@ -26,3 +26,12 @@ class VehicleAddView(CreateView):
     def form_valid(self, form):
         form.instance.owner= self.request.user
         return super().form_valid(form)
+
+class VehicleRecordView(ListView):
+    model = VehicleRecordModel
+    template_name = 'vehicle_record.html'
+    context_object_name = 'vehicle_actions'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        
