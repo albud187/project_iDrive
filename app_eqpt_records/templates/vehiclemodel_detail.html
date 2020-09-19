@@ -9,7 +9,7 @@
       <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <fieldset class="form-group">
-            <p>{{vehicleModel.owner}}</p>
+            <p>{{objecct.owner}}</p>
               {{form|crispy}}
           </fieldset>
           <div class="form-group">
