@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -16,7 +17,9 @@ class VehicleModel(models.Model):
         return (str(self.owner) + ' / ' + str(self.year) + ' / ' +self.vehicle_modeltype)
 
     def get_absolute_url(self):
-        return reverse('app_eqpt_records:vehicle_list')
+        # return reverse('app_eqpt_records:vehicle_detail', kwargs = {'pk':self.pk})
+        return reverse('app_eqpt_records:vehicle_list', kwargs= {'username':str(self.owner)})
+
 
 
 class VehicleRecordModel(models.Model):
