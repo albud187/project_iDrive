@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib.auth.models import User
 
-from . models import VehicleModel, VehicleRecordModel, VehicleActionModel
+from . models import VehicleModel, VehicleActionModel
 from .forms import VehicleUpdateForm
 class VehicleListView(ListView):
     model = VehicleModel
@@ -34,7 +34,7 @@ class VehicleAddView(CreateView):
 class VehicleDetailView(UpdateView):
     model = VehicleModel
     # can change fields to match fields of VehicleModel
-    fields = ['VINNumber','year','Notes']
+    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
     template_name = 'vehiclemodel_detail.html'
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -46,3 +46,12 @@ class VehicleDeleteView(DeleteView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         print(user)
         return reverse('app_eqpt_records:vehicle_list',kwargs={'username':user.username})
+
+class VehicleActionView(UpdateView):
+    model = VehicleActionModel
+    # can change fields to match fields of VehicleModel
+    fields = ['ActionDate', 'Description', 'Cost']
+    template_name = 'vehiclemodel_action_detail.html'
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

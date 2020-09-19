@@ -20,26 +20,17 @@ class VehicleModel(models.Model):
         return reverse('app_eqpt_records:vehicle_detail', kwargs = {'username':str(self.owner), 'pk':self.pk})
         # return reverse('app_eqpt_records:vehicle_list', kwargs= {'username':str(self.owner)})
 
-class VehicleRecordModel(models.Model):
-    vehicle = models.OneToOneField(VehicleModel, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return ('record'+ ' / ' + str(self.vehicle.owner) + ' / ' +str(self.vehicle.year) + ' ' +self.vehicle.vehicle_modeltype)
-
-    def get_absolute_url(self):
-        return reverse('app_eqpt_records:vehicle_view')
-
 class VehicleActionModel(models.Model):
-    VehicleRecord = models.ForeignKey(VehicleRecordModel, on_delete=models.CASCADE)
-    actionDate = models.DateTimeField()
-    description = models.TextField(null=True)
-    cost = models.FloatField()
+    Vehicle = models.ForeignKey(VehicleModel, null= True, on_delete = models.CASCADE)
+    ActionDate = models.DateTimeField()
+    Description = models.TextField(null=True)
+    Cost = models.FloatField()
 
     def __str__(self):
-        return(str(self.VehicleRecord.vehicle.owner) + ' / ' + str(self.actionDate) + ' / '+ str(self.VehicleRecord.vehicle.year) +' ' + self.VehicleRecord.vehicle.vehicle_modeltype)
+        return(str(self.Vehicle.owner) + ' / ' + str(self.ActionDate) + ' / '+ str(self.Vehicle.year) +' ' + self.Vehicle.vehicle_modeltype)
 
     def get_absolute_url(self):
-        return reverse('app_eqpt_records:vehicle_view')
+        return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.pk, 'rk':self.rk})
 
 # class ActionDetailModel(models.model):
 #     VehicleAction = models.OneToOnefield(VehicleActionModel, on_delete = models.CASCADE)

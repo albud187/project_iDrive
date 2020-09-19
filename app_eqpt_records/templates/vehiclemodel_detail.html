@@ -8,8 +8,9 @@
     <div class="content-section">
       <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
+          <h1>Vehicle Detail</h1>
           <fieldset class="form-group">
-            <p>{{objecct.owner}}</p>
+            <p>{{user.vehicle.owner}}</p>
               {{form|crispy}}
           </fieldset>
           <div class="form-group">
