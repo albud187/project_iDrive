@@ -7,7 +7,8 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib.auth.models import User
 
 from . models import VehicleModel, VehicleActionModel
-from .forms import VehicleUpdateForm
+
+#vehicles
 class VehicleListView(ListView):
     model = VehicleModel
     template_name = 'vehicle_list.html'
@@ -46,6 +47,20 @@ class VehicleDeleteView(DeleteView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         print(user)
         return reverse('app_eqpt_records:vehicle_list',kwargs={'username':user.username})
+
+
+
+###actions###
+
+class VehicleActionListView(ListView):
+    model = VehicleActionModel
+    template_name = 'vehicle_record.html'
+    context_object_name = 'events'
+
+
+    def get_queryset(self):
+        veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'),)
+        return VehicleActionModel.objects.filter(Vehicle=veh)
 
 class VehicleActionView(UpdateView):
     model = VehicleActionModel

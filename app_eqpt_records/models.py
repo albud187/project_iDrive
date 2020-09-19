@@ -30,7 +30,7 @@ class VehicleActionModel(models.Model):
         return(str(self.Vehicle.owner) + ' / ' + str(self.ActionDate) + ' / '+ str(self.Vehicle.year) +' ' + self.Vehicle.vehicle_modeltype)
 
     def get_absolute_url(self):
-        return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.pk, 'rk':self.rk})
+        return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.Vehicle.pk, 'rk':self.rk})
 
 # class ActionDetailModel(models.model):
 #     VehicleAction = models.OneToOnefield(VehicleActionModel, on_delete = models.CASCADE)
