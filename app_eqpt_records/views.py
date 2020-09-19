@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib.auth.models import User
 
 from . models import VehicleModel, VehicleRecordModel, VehicleActionModel
@@ -42,4 +42,7 @@ class VehicleDetailView(UpdateView):
 
 class VehicleDeleteView(DeleteView):
     model = VehicleModel
-    success_url =''
+    def get_success_url(self, **kwargs):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        print(user)
+        return reverse('app_eqpt_records:vehicle_list',kwargs={'username':user.username})
