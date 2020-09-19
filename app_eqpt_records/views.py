@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, FormView, UpdateView
 # Create your views here.
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
@@ -29,6 +29,22 @@ class VehicleAddView(CreateView):
         form.instance.owner= self.request.user
         return super().form_valid(form)
 
+class VehicleDetailView(UpdateView):
+    model = VehicleModel
+    fields = ['VINNumber','year','Notes']
+    template_name = 'vehiclemodel_detail.html'
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     vehicle = get_object_or_404(VehicleModel, vehicle=self.kwargs.get('pk'))
+    #     user = get_object_or_404(User, username=self.kwargs.get('username'))
+    #     context['VINNumber'] = VehicleModel.objects.filter(owner=user)
+
+
+
 # class VehicleRecordView(ListView):
 #     model = VehicleRecordModel
 #     template_name = 'vehicle_record.html'
@@ -37,8 +53,16 @@ class VehicleAddView(CreateView):
 #     def get_queryset(self):
 #         user = get_object_or_404(User, username=self.kwargs.get('username'))
 
-def VehicleDetailFunctionView(request):
-    if request.method =='POST':
-        v_form = VehicleUpdateForm(request.POST, instance = user.vehicle)
-
-        
+# def VehicleDetailFunctionView(request):
+#     if request.method =='POST':
+#         v_form = VehicleUpdateForm(request.POST, instance = request.vehicle)
+#
+#         if v_form.is_valid():
+#             v_form.save()
+#
+#     else:
+#         v_form = VehicleUpdateForm(instance=request.vehicle)
+#
+#     context = {'v_form':v_form}
+#
+#     return render(request, 'vehiclemodel_detail.html',context)
