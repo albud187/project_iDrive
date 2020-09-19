@@ -18,11 +18,6 @@ class VehicleListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return VehicleModel.objects.filter(owner=user)
 
-class VehicleDetailView(DetailView):
-    model = VehicleModel
-    context_object_name = 'vehicle'
-
-
 class VehicleAddView(CreateView):
     model= VehicleModel
     fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
@@ -37,9 +32,9 @@ class VehicleDetailView(UpdateView):
     # can change fields to match fields of VehicleModel
     fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
     template_name = 'vehiclemodel_detail.html'
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user
+    #     return super().form_valid(form)
 
 class VehicleDeleteView(DeleteView):
     model = VehicleModel
@@ -55,18 +50,17 @@ class VehicleDeleteView(DeleteView):
 class VehicleActionListView(ListView):
     model = VehicleActionModel
     template_name = 'vehicle_record.html'
-    context_object_name = 'events'
-
+    context_object_name = 'actions'
 
     def get_queryset(self):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'),)
         return VehicleActionModel.objects.filter(Vehicle=veh)
 
-class VehicleActionView(UpdateView):
+class VehicleActionDetailView(UpdateView):
     model = VehicleActionModel
     # can change fields to match fields of VehicleModel
     fields = ['ActionDate', 'Description', 'Cost']
     template_name = 'vehiclemodel_action_detail.html'
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user
+    #     return super().form_valid(form)

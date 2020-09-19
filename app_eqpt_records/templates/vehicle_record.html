@@ -13,20 +13,22 @@
           <th scope="col">Description</th>
           <th scope="col">Cost</th>
           <!-- <th scope="col">VIN</th> -->
-          <th scope="col">Actions</th>
+          <th scope="col">Options</th>
 
         </tr>
       </thead>
   <tbody>
-    {% for event in events %}
+    {% for action in actions %}
+
 
     <tr>
-      <td>{{event.ActionDate}}</td>
-      <td>{{event.Description}}</td>
-      <td>{{event.Cost}}</td>
+      <td>{{action.ActionDate}}</td>
+      <td>{{action.Description}}</td>
+      <td>{{action.Cost}}</td>
       <!-- <td>{{vehicle.VINNumber}}</td> -->
       <td>
-        <a class ="btn btn-primary btn-sm" href="">Details</a>
+        {{action.Vehicle}}
+        <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action' user.username action.pk action.pk %}">Details</a>
         <a class ="btn btn-danger btn-sm" href="">Remove</a>
 
       </td>
@@ -35,7 +37,7 @@
     {%endfor%}
   </tbody>
 </table>
-<a class =  "btn btn-primary btn-sm" href = "">Add Event</a>
+<a class =  "btn btn-primary btn-sm" href = "">Add Action</a>
   </div>
 
 </div>
