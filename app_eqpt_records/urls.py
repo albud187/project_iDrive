@@ -6,7 +6,7 @@ app_name = 'app_eqpt_records'
 urlpatterns = [
     path('<str:username>/vehicles/', views.VehicleListView.as_view(), name='vehicle_list'),
     path('<str:username>/vehicles/add', views.VehicleAddView.as_view(), name='vehicle_add'),
-    # path('<str:username>/vehicles/<pk:int>', views.VehicleDetailView.as_view(), name='vehicle_detail'),
+    path('<str:username>/vehicles/<int:pk>/', views.VehicleDetailView.as_view(), name='vehicle_detail'),
 
 
     ]

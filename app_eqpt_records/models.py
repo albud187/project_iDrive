@@ -17,10 +17,8 @@ class VehicleModel(models.Model):
         return (str(self.owner) + ' / ' + str(self.year) + ' / ' +self.vehicle_modeltype)
 
     def get_absolute_url(self):
-        # return reverse('app_eqpt_records:vehicle_detail', kwargs = {'pk':self.pk})
-        return reverse('app_eqpt_records:vehicle_list', kwargs= {'username':str(self.owner)})
-
-
+        return reverse('app_eqpt_records:vehicle_detail', kwargs = {'username':str(self.owner), 'pk':self.pk})
+        # return reverse('app_eqpt_records:vehicle_list', kwargs= {'username':str(self.owner)})
 
 class VehicleRecordModel(models.Model):
     vehicle = models.OneToOneField(VehicleModel, on_delete=models.CASCADE)
