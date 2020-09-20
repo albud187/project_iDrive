@@ -70,5 +70,12 @@ class VehicleActionAddView(CreateView):
     template_name = 'vehicle_action_add.html'
 
     def form_valid(self, form):
-        form.instance.Vehicle= self.request.Vehicle
+        # print('request_dict_keys:')
+        # print(self.request.__dict__.keys())
+        #
+        # print('request_resolver_match_keys:')
+        # print(self.request.resolver_match.kwargs['pk'])
+
+        form.instance.owner= self.request.user
+        form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
         return super().form_valid(form)
