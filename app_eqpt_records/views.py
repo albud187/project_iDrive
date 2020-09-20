@@ -8,6 +8,16 @@ from django.contrib.auth.models import User
 
 from . models import VehicleModel, VehicleActionModel
 
+vehicle_with_action = []
+
+for vehicle in VehicleActionModel.objects.all():
+    vehicle_with_action.append(vehicle.Vehicle)
+
+for vehicle in VehicleModel.objects.all():
+    if vehicle not in vehicle_with_action:
+        #create VehicleActionModelObjectHere
+        VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
+
 #vehicles
 class VehicleListView(ListView):
     model = VehicleModel
@@ -22,6 +32,17 @@ class VehicleAddView(CreateView):
     model= VehicleModel
     fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
     template_name = 'vehicle_add.html'
+
+    vehicle_with_action = []
+
+    for vehicle in VehicleActionModel.objects.all():
+        vehicle_with_action.append(vehicle.Vehicle)
+
+    for vehicle in VehicleModel.objects.all():
+        if vehicle not in vehicle_with_action:
+            #create VehicleActionModelObjectHere
+            VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
+
 
     def form_valid(self, form):
         form.instance.owner= self.request.user
@@ -52,15 +73,15 @@ class VehicleDeleteView(DeleteView):
 #go thru VehicleActionModel
 #list all vehic
 
-vehicle_with_action = []
-
-for vehicle in VehicleActionModel.objects.all():
-    vehicle_with_action.append(vehicle.Vehicle)
-
-for vehicle in VehicleModel.objects.all():
-    if vehicle not in vehicle_with_action:
-        #create VehicleActionModelObjectHere
-        print(vehicle)
+# vehicle_with_action = []
+#
+# for vehicle in VehicleActionModel.objects.all():
+#     vehicle_with_action.append(vehicle.Vehicle)
+#
+# for vehicle in VehicleModel.objects.all():
+#     if vehicle not in vehicle_with_action:
+#         #create VehicleActionModelObjectHere
+#         VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
 
 class VehicleActionListView(ListView):
     model = VehicleActionModel
