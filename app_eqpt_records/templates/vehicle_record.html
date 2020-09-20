@@ -34,10 +34,11 @@
       </td>
     </tr>
 
-    {%endfor%}
-  </tbody>
+  {%endfor%}
+</tbody>
 </table>
-<a class =  "btn btn-primary btn-sm" href = "">Add Action</a>
+<a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action_add' user.username actions.all.first.Vehicle.pk %}">Add Action</a>
+
   </div>
 
 </div>

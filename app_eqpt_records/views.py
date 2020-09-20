@@ -43,8 +43,6 @@ class VehicleDeleteView(DeleteView):
         print(user)
         return reverse('app_eqpt_records:vehicle_list',kwargs={'username':user.username})
 
-
-
 ###actions###
 
 class VehicleActionListView(ListView):
@@ -56,6 +54,7 @@ class VehicleActionListView(ListView):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'),)
         return VehicleActionModel.objects.filter(Vehicle=veh)
 
+
 class VehicleActionDetailView(UpdateView):
     model = VehicleActionModel
     # can change fields to match fields of VehicleModel
@@ -64,3 +63,12 @@ class VehicleActionDetailView(UpdateView):
     # def form_valid(self, form):
     #     form.instance.author = self.request.user
     #     return super().form_valid(form)
+
+class VehicleActionAddView(CreateView):
+    model= VehicleActionModel
+    fields = ['ActionDate', 'Description', 'Cost']
+    template_name = 'vehicle_action_add.html'
+
+    def form_valid(self, form):
+        form.instance.Vehicle= self.request.Vehicle
+        return super().form_valid(form)
