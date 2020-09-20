@@ -45,24 +45,18 @@ class VehicleDeleteView(DeleteView):
 
 ###actions###
 
+# vehicle_without_action = VehicleModel.objects.filter(profile__isnull=True)
+# for user in users_without_profile:
+#     Profile.objects.create(user=user)
+
 class VehicleActionListView(ListView):
     model = VehicleActionModel
     template_name = 'vehicle_record.html'
     context_object_name = 'actions'
 
     def get_queryset(self):
-        veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'),)
+        veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
         return VehicleActionModel.objects.filter(Vehicle=veh)
-
-
-class VehicleActionDetailView(UpdateView):
-    model = VehicleActionModel
-    # can change fields to match fields of VehicleModel
-    fields = ['ActionDate', 'Description', 'Cost']
-    template_name = 'vehiclemodel_action_detail.html'
-    # def form_valid(self, form):
-    #     form.instance.author = self.request.user
-    #     return super().form_valid(form)
 
 class VehicleActionAddView(CreateView):
     model= VehicleActionModel
@@ -76,6 +70,18 @@ class VehicleActionAddView(CreateView):
         # print('request_resolver_match_keys:')
         # print(self.request.resolver_match.kwargs['pk'])
 
+        form.instance.owner= self.request.user
+        # form.instance.post = Post.objects.get(pk=self.kwargs.get("pk"))
+        # form.instance.Vehicle = VehicleModel.objects.get(pk=self.kwargs.get("pk"))
+        form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
+        return super().form_valid(form)
+
+class VehicleActionDetailView(UpdateView):
+    model = VehicleActionModel
+    # can change fields to match fields of VehicleModel
+    fields = ['ActionDate', 'Description', 'Cost']
+    template_name = 'vehiclemodel_action_detail.html'
+    def form_valid(self, form):
         form.instance.owner= self.request.user
         form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
         return super().form_valid(form)

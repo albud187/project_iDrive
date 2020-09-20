@@ -30,7 +30,6 @@
       <td>{{action.Cost}}</td>
       <!-- <td>{{vehicle.VINNumber}}</td> -->
       <td>
-        {{action.Vehicle}}
         <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action' user.username action.pk action.pk %}">Details</a>
         <a class ="btn btn-danger btn-sm" href="">Remove</a>
 
@@ -40,10 +39,12 @@
   {%endfor%}
 </tbody>
 </table>
+{% if actions %}
 <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action_add' user.username actions.all.first.Vehicle.pk %}">Add Action</a>
+{%else %}
 
-  </div>
-
+  {%endif %}
+</div>
 </div>
 
 {% endblock %}
