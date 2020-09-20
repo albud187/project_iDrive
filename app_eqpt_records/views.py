@@ -49,6 +49,19 @@ class VehicleDeleteView(DeleteView):
 # for user in users_without_profile:
 #     Profile.objects.create(user=user)
 
+#go thru VehicleActionModel
+#list all vehic
+
+vehicle_with_action = []
+
+for vehicle in VehicleActionModel.objects.all():
+    vehicle_with_action.append(vehicle.Vehicle)
+
+for vehicle in VehicleModel.objects.all():
+    if vehicle not in vehicle_with_action:
+        #create VehicleActionModelObjectHere
+        print(vehicle)
+
 class VehicleActionListView(ListView):
     model = VehicleActionModel
     template_name = 'vehicle_record.html'

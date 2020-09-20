@@ -31,8 +31,8 @@ class VehicleActionModel(models.Model):
         # return('action')
 
     def get_absolute_url(self):
-        # return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.pk, 'rk':self.pk})
-        return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.Vehicle.pk, 'rk':self.pk})
+        return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.pk, 'rk':self.pk})
+        # return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'pk':self.Vehicle.pk, 'rk':self.pk})
         # return reverse('app_eqpt_records:vehicle_action', kwargs = {'username':str(self.Vehicle.owner), 'rk':self.pk})
 
 
