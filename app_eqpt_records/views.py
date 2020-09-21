@@ -10,7 +10,6 @@ from . models import VehicleModel, VehicleActionModel
 
 
 def create_place_holder_action():
-
     vehicle_with_action = []
     for vehicle in VehicleActionModel.objects.all():
         vehicle_with_action.append(vehicle.Vehicle)
@@ -18,7 +17,7 @@ def create_place_holder_action():
     for vehicle in VehicleModel.objects.all():
         if vehicle not in vehicle_with_action:
             #create VehicleActionModelObjectHere
-            VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
+            VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0, Title='nil', Placeholder = True)
 
 create_place_holder_action()
 

@@ -6,3 +6,4 @@ from . models import VehicleModel, VehicleActionModel
 
 admin.site.register(VehicleModel)
 admin.site.register(VehicleActionModel)
+# admin.site.register(VehicleAction)
