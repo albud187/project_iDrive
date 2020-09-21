@@ -8,33 +8,10 @@ from django.contrib.auth.models import User
 
 from . models import VehicleModel, VehicleActionModel
 
-vehicle_with_action = []
 
-for vehicle in VehicleActionModel.objects.all():
-    vehicle_with_action.append(vehicle.Vehicle)
-
-for vehicle in VehicleModel.objects.all():
-    if vehicle not in vehicle_with_action:
-        #create VehicleActionModelObjectHere
-        VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
-
-#vehicles
-class VehicleListView(ListView):
-    model = VehicleModel
-    template_name = 'vehicle_list.html'
-    context_object_name = 'vehicles'
-
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return VehicleModel.objects.filter(owner=user)
-
-class VehicleAddView(CreateView):
-    model= VehicleModel
-    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
-    template_name = 'vehicle_add.html'
+def create_place_holder_action():
 
     vehicle_with_action = []
-
     for vehicle in VehicleActionModel.objects.all():
         vehicle_with_action.append(vehicle.Vehicle)
 
@@ -43,7 +20,24 @@ class VehicleAddView(CreateView):
             #create VehicleActionModelObjectHere
             VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
 
+create_place_holder_action()
 
+#vehicles
+class VehicleListView(ListView):
+    model = VehicleModel
+    template_name = 'vehicle_list.html'
+    context_object_name = 'vehicles'
+
+
+    def get_queryset(self):
+        create_place_holder_action()
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return VehicleModel.objects.filter(owner=user)
+
+class VehicleAddView(CreateView):
+    model= VehicleModel
+    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
+    template_name = 'vehicle_add.html'
     def form_valid(self, form):
         form.instance.owner= self.request.user
         return super().form_valid(form)
@@ -66,22 +60,7 @@ class VehicleDeleteView(DeleteView):
 
 ###actions###
 
-# vehicle_without_action = VehicleModel.objects.filter(profile__isnull=True)
-# for user in users_without_profile:
-#     Profile.objects.create(user=user)
 
-#go thru VehicleActionModel
-#list all vehic
-
-# vehicle_with_action = []
-#
-# for vehicle in VehicleActionModel.objects.all():
-#     vehicle_with_action.append(vehicle.Vehicle)
-#
-# for vehicle in VehicleModel.objects.all():
-#     if vehicle not in vehicle_with_action:
-#         #create VehicleActionModelObjectHere
-#         VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0)
 
 class VehicleActionListView(ListView):
     model = VehicleActionModel
