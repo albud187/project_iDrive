@@ -10,7 +10,7 @@ class VehicleModel(models.Model):
     year = models.IntegerField()
     vehicle_make = models.CharField(max_length=200)
     vehicle_modeltype = models.CharField(max_length=200)
-    VINNumber = models.CharField(max_length=200)
+    liscence_plate = models.CharField(max_length=200)
     Notes = models.TextField(null=True)
 
     def __str__(self):
