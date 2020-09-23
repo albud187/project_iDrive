@@ -11,5 +11,6 @@ urlpatterns = [
     path('<str:username>/vehicles/<int:pk>/records/', views.VehicleActionListView.as_view(), name='vehicle_records'),
     path('<str:username>/vehicles/<int:pk>/records/<int:rk>', views.VehicleActionDetailView.as_view(), name='vehicle_action'),
     path('<str:username>/vehicles/<int:pk>/records/add', views.VehicleActionAddView.as_view(), name='vehicle_action_add'),
+    path('<str:username>/vehicles/<int:pk>/records/delete', views.delete_action, name='vehicle_action_delete'),
 
     ]

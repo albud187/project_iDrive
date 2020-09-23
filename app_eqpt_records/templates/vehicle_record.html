@@ -16,7 +16,7 @@
           <th scope="col">Description</th>
           <th scope="col">Cost</th>
           <!-- <th scope="col">VIN</th> -->
-          <th scope="col">Options</th>
+          <th scope="col"></th>
 
         </tr>
       </thead>
@@ -32,7 +32,6 @@
       <!-- <td>{{vehicle.VINNumber}}</td> -->
       <td>
         <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action' user.username action.pk action.pk %}">Details</a>
-        <a class ="btn btn-danger btn-sm" href="">Remove</a>
 
       </td>
     </tr>
@@ -42,6 +41,8 @@
 </table>
 {% if actions %}
 <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action_add' user.username actions.all.first.Vehicle.pk %}">Add Action</a>
+<a class ="btn btn-danger btn-sm" href="">Remove</a>
+
 {%else %}
 
   {%endif %}

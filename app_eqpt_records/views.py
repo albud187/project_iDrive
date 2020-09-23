@@ -10,7 +10,7 @@ from . models import VehicleModel, VehicleActionModel
 
 
 def create_place_holder_action():
-    
+
     vehicle_with_action = []
     for vehicle in VehicleActionModel.objects.all():
         vehicle_with_action.append(vehicle.Vehicle)
@@ -36,7 +36,7 @@ class VehicleListView(ListView):
 
 class VehicleAddView(CreateView):
     model= VehicleModel
-    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
+    fields = ['year', 'vehicle_make', 'vehicle_modeltype','liscence_plate','Notes']
     template_name = 'vehicle_add.html'
     def form_valid(self, form):
         form.instance.owner= self.request.user
@@ -45,7 +45,7 @@ class VehicleAddView(CreateView):
 class VehicleDetailView(UpdateView):
     model = VehicleModel
     # can change fields to match fields of VehicleModel
-    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
+    fields = ['year', 'vehicle_make', 'vehicle_modeltype','liscence_plate','Notes']
     template_name = 'vehiclemodel_detail.html'
     # def form_valid(self, form):
     #     form.instance.author = self.request.user
@@ -60,8 +60,6 @@ class VehicleDeleteView(DeleteView):
 
 ###actions###
 
-
-
 class VehicleActionListView(ListView):
     model = VehicleActionModel
     template_name = 'vehicle_record.html'
@@ -70,6 +68,22 @@ class VehicleActionListView(ListView):
     def get_queryset(self):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
         return VehicleActionModel.objects.filter(Vehicle=veh)
+
+class VehicleActionDeleteListView(ListView):
+    model = VehicleActionModel
+    template_name = 'vehicle_record_delete.html'
+    context_object_name = 'actions'
+
+    def get_queryset(self):
+        veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
+        return VehicleActionModel.objects.filter(Vehicle=veh)
+
+
+def delete_action(request, pk):
+    vehicle_action = get_object_or_404(VehicleActionModel, pk=pk)
+    vehicle_pk = vehicle_action.Vehicle.pk
+    vehicle_action.delete()
+    return redirect('app_eqpt_records:vehicle_records', pk=vehicle_pk)
 
 class VehicleActionAddView(CreateView):
     model= VehicleActionModel
