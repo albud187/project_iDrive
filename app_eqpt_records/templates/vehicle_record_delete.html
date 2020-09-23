@@ -39,6 +39,8 @@
 </tbody>
 </table>
 {% if actions %}
+<a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_records' user.username actions.all.first.Vehicle.pk %}"">Actions Details</a>
+
 {%else %}
 
   {%endif %}

@@ -100,7 +100,7 @@ def delete_action(request, pk, username):
 
 class VehicleActionAddView(CreateView):
     model= VehicleActionModel
-    fields = ['ActionDate', 'Description', 'Cost']
+    fields = ['ActionDate', 'Title', 'Description', 'Cost']
     template_name = 'vehicle_action_add.html'
 
     def form_valid(self, form):
@@ -118,10 +118,11 @@ class VehicleActionAddView(CreateView):
 
 class VehicleActionDetailView(UpdateView):
     model = VehicleActionModel
+    context_object_name = 'vehicle_action'
     # can change fields to match fields of VehicleModel
-    fields = ['ActionDate', 'Description', 'Cost']
+    fields = ['ActionDate', 'Title', 'Description', 'Cost']
     template_name = 'vehiclemodel_action_detail.html'
     def form_valid(self, form):
         form.instance.owner= self.request.user
-        form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
+        # form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
         return super().form_valid(form)
