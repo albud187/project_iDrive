@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="jumbotron">
-    <h1>Vehicle Record -  {{actions.all.first.Vehicle.year}} {{actions.all.first.Vehicle.vehicle_make}} {{actions.all.first.Vehicle.vehicle_modeltype}}</h1>
+    <h1>Vehicle Record -  {{actions.all.first.Vehicle.year}} {{actions.all.first.Vehicle.vehicle_make}} {{actions.all.first.Vehicle.vehicle_modeltype}} {{actions.all.first.Vehicle.liscence_plate}}</h1>
 
 
     <a class =  "btn btn-primary btn-sm" href = "">Vehicle Detail</a>
@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <th scope="col">ActionDate</th>
-          <th scope="col">Description</th>
+          <th scope="col">Title</th>
           <th scope="col">Cost</th>
           <!-- <th scope="col">VIN</th> -->
           <th scope="col"></th>
@@ -27,7 +27,7 @@
 
     <tr>
       <td>{{action.ActionDate}}</td>
-      <td>{{action.Description}}</td>
+      <td>{{action.Title}}</td>
       <td>{{action.Cost}}</td>
       <!-- <td>{{vehicle.VINNumber}}</td> -->
       <td>
@@ -41,7 +41,7 @@
 </table>
 {% if actions %}
 <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action_add' user.username actions.all.first.Vehicle.pk %}">Add Action</a>
-<a class ="btn btn-danger btn-sm" href="">Remove</a>
+<a class ="btn btn-danger btn-sm" href="{%url 'app_eqpt_records:vehicle_action_list_delete' user.username actions.all.first.Vehicle.pk %}"">Remove</a>
 
 {%else %}
 

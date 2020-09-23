@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib.auth.models import User
 
 from . models import VehicleModel, VehicleActionModel
+from django.contrib.auth.decorators import login_required
 
 
 def create_place_holder_action():
@@ -78,12 +79,24 @@ class VehicleActionDeleteListView(ListView):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
         return VehicleActionModel.objects.filter(Vehicle=veh)
 
+@login_required
+def delete_action(request, pk, username):
+    # user = get_object_or_404(User, username=self.kwargs.get('username'))
 
-def delete_action(request, pk):
     vehicle_action = get_object_or_404(VehicleActionModel, pk=pk)
+    username = vehicle_action.Vehicle.owner
     vehicle_pk = vehicle_action.Vehicle.pk
     vehicle_action.delete()
-    return redirect('app_eqpt_records:vehicle_records', pk=vehicle_pk)
+    return redirect('app_eqpt_records:vehicle_action_list_delete', pk=vehicle_pk, username=username)
+
+
+# @login_required
+# def comment_remove(request, pk):
+#     comment = get_object_or_404(PostComment, pk=pk)
+#     post_pk = comment.post.pk
+#     comment.delete()
+#     return redirect('app_forum:post_detail', pk=post_pk)
+
 
 class VehicleActionAddView(CreateView):
     model= VehicleActionModel
