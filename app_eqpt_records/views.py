@@ -45,6 +45,7 @@ class VehicleAddView(CreateView):
 
 class VehicleDetailView(UpdateView):
     model = VehicleModel
+    context_object_name = 'vehicle'
     # can change fields to match fields of VehicleModel
     fields = ['year', 'vehicle_make', 'vehicle_modeltype','liscence_plate','Notes']
     template_name = 'vehiclemodel_detail.html'

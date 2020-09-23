@@ -5,9 +5,9 @@
   <div class="jumbotron">
     <h1>Vehicle Record -  {{actions.all.first.Vehicle.year}} {{actions.all.first.Vehicle.vehicle_make}} {{actions.all.first.Vehicle.vehicle_modeltype}} {{actions.all.first.Vehicle.liscence_plate}}</h1>
 
-
-    <a class =  "btn btn-primary btn-sm" href = "">Vehicle Detail</a>
-
+    {% if actions %}
+    <a class =  "btn btn-primary btn-sm" href = "{%url 'app_eqpt_records:vehicle_detail' user.username actions.all.first.Vehicle.pk %}">Vehicle Detail</a>
+{%endif %}
 
     <table class="table">
       <thead>
@@ -41,7 +41,7 @@
 </table>
 {% if actions %}
 <a class ="btn btn-primary btn-sm" href="{%url 'app_eqpt_records:vehicle_action_add' user.username actions.all.first.Vehicle.pk %}">Add Action</a>
-<a class ="btn btn-danger btn-sm" href="{%url 'app_eqpt_records:vehicle_action_list_delete' user.username actions.all.first.Vehicle.pk %}"">Remove</a>
+<a class ="btn btn-danger btn-sm" href="{%url 'app_eqpt_records:vehicle_action_list_delete' user.username actions.all.first.Vehicle.pk %}"">Remove Action</a>
 
 {%else %}
 
