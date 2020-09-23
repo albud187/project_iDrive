@@ -29,7 +29,6 @@ class VehicleListView(ListView):
     template_name = 'vehicle_list.html'
     context_object_name = 'vehicles'
 
-
     def get_queryset(self):
         create_place_holder_action()
         user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -69,16 +68,17 @@ class VehicleActionListView(ListView):
 
     def get_queryset(self):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
-        return VehicleActionModel.objects.filter(Vehicle=veh)
+        return VehicleActionModel.objects.filter(Vehicle=veh).order_by('ActionDate')
 
 class VehicleActionDeleteListView(ListView):
     model = VehicleActionModel
     template_name = 'vehicle_record_delete.html'
     context_object_name = 'actions'
+    ordering = ['ActionDate']
 
     def get_queryset(self):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
-        return VehicleActionModel.objects.filter(Vehicle=veh)
+        return VehicleActionModel.objects.filter(Vehicle=veh).order_by('ActionDate')
 
 @login_required
 def delete_action(request, pk, username):
