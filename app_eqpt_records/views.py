@@ -8,9 +8,9 @@ from django.contrib.auth.models import User
 
 from . models import VehicleModel, VehicleActionModel
 
+
 def create_place_holder_action():
-    #make this function just pass before updating models
-    #pass
+    
     vehicle_with_action = []
     for vehicle in VehicleActionModel.objects.all():
         vehicle_with_action.append(vehicle.Vehicle)
@@ -18,7 +18,6 @@ def create_place_holder_action():
     for vehicle in VehicleModel.objects.all():
         if vehicle not in vehicle_with_action:
             #create VehicleActionModelObjectHere
-            #change this whenever VehicleActionModel in models.py is modified
             VehicleActionModel.objects.create(Vehicle=vehicle, ActionDate = '1000-01-01', Cost=0, Title='nil', Placeholder = True)
 
 create_place_holder_action()
@@ -37,7 +36,7 @@ class VehicleListView(ListView):
 
 class VehicleAddView(CreateView):
     model= VehicleModel
-    fields = ['year', 'vehicle_make', 'vehicle_modeltype','liscence_plate','Notes']
+    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
     template_name = 'vehicle_add.html'
     def form_valid(self, form):
         form.instance.owner= self.request.user
@@ -46,7 +45,7 @@ class VehicleAddView(CreateView):
 class VehicleDetailView(UpdateView):
     model = VehicleModel
     # can change fields to match fields of VehicleModel
-    fields = ['year', 'vehicle_make', 'vehicle_modeltype','liscence_plate','Notes']
+    fields = ['year', 'vehicle_make', 'vehicle_modeltype','VINNumber','Notes']
     template_name = 'vehiclemodel_detail.html'
     # def form_valid(self, form):
     #     form.instance.author = self.request.user
@@ -74,7 +73,7 @@ class VehicleActionListView(ListView):
 
 class VehicleActionAddView(CreateView):
     model= VehicleActionModel
-    fields = ['ActionDate', 'Title', 'Description', 'Cost']
+    fields = ['ActionDate', 'Description', 'Cost']
     template_name = 'vehicle_action_add.html'
 
     def form_valid(self, form):
@@ -93,16 +92,9 @@ class VehicleActionAddView(CreateView):
 class VehicleActionDetailView(UpdateView):
     model = VehicleActionModel
     # can change fields to match fields of VehicleModel
-    fields = ['ActionDate', 'Title', 'Description', 'Cost']
+    fields = ['ActionDate', 'Description', 'Cost']
     template_name = 'vehiclemodel_action_detail.html'
     def form_valid(self, form):
         form.instance.owner= self.request.user
         form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
         return super().form_valid(form)
-
-# class VehicleActionDeleteView(DeleteView):
-#     model = VehicleActionModel
-#     def get_success_url(self, **kwargs):
-#         user = get_object_or_404(User, username=self.kwargs.get('username'))
-#         print(user)
-#         return reverse('app_eqpt_records:vehicle_list',kwargs={'username':user.username})
