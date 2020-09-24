@@ -74,7 +74,6 @@ class VehicleActionDeleteListView(ListView):
     model = VehicleActionModel
     template_name = 'vehicle_record_delete.html'
     context_object_name = 'actions'
-    ordering = ['ActionDate']
 
     def get_queryset(self):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
