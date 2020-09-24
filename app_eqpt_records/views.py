@@ -9,12 +9,20 @@ from django.contrib.auth.models import User
 from . models import VehicleModel, VehicleActionModel
 from django.contrib.auth.decorators import login_required
 
+def create_place_holder_vehicle():
+    user_with_vehicle = []
+    for vehicle in VehicleModel.objects.all():
+        user_with_vehicle.append(vehicle.owner)
+
+    for user in User.objects.all():
+        if user not in user_with_vehicle:
+            VehicleModel.objects.create(owner=user, year = 1000, vehicle_make = 'placeholder', vehicle_modeltype='placeholder', liscence_plate='placeholder', Placeholder = True)
+
 
 def create_place_holder_action():
-
     vehicle_with_action = []
-    for vehicle in VehicleActionModel.objects.all():
-        vehicle_with_action.append(vehicle.Vehicle)
+    for action in VehicleActionModel.objects.all():
+        vehicle_with_action.append(action.Vehicle)
 
     for vehicle in VehicleModel.objects.all():
         if vehicle not in vehicle_with_action:
@@ -30,6 +38,7 @@ class VehicleListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
     context_object_name = 'vehicles'
 
     def get_queryset(self):
+        create_place_holder_vehicle()
         create_place_holder_action()
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return VehicleModel.objects.filter(owner=user)

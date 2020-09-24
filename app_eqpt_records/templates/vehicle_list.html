@@ -18,6 +18,7 @@
       </thead>
   <tbody>
     {% for vehicle in vehicles %}
+    {% if vehicle.Placeholder == False %}
 
     <tr>
       <td>{{vehicle.year}}</td>
@@ -33,7 +34,7 @@
 
       </td>
     </tr>
-
+    {% endif %}
     {%endfor%}
   </tbody>
 </table>
