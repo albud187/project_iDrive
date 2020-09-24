@@ -24,7 +24,7 @@ def create_place_holder_action():
 create_place_holder_action()
 
 #vehicles
-class VehicleListView(ListView):
+class VehicleListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
     model = VehicleModel
     template_name = 'vehicle_list.html'
     context_object_name = 'vehicles'
@@ -34,7 +34,7 @@ class VehicleListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return VehicleModel.objects.filter(owner=user)
 
-class VehicleAddView(CreateView):
+class VehicleAddView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
     model= VehicleModel
     fields = ['year', 'vehicle_make', 'vehicle_modeltype','liscence_plate','Notes']
     template_name = 'vehicle_add.html'
@@ -42,7 +42,7 @@ class VehicleAddView(CreateView):
         form.instance.owner= self.request.user
         return super().form_valid(form)
 
-class VehicleDetailView(UpdateView):
+class VehicleDetailView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = VehicleModel
     context_object_name = 'vehicle'
     # can change fields to match fields of VehicleModel
@@ -52,8 +52,9 @@ class VehicleDetailView(UpdateView):
     #     form.instance.author = self.request.user
     #     return super().form_valid(form)
 
-class VehicleDeleteView(DeleteView):
+class VehicleDeleteView(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
     model = VehicleModel
+    context_object_name = 'vehicle'
     def get_success_url(self, **kwargs):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         print(user)
@@ -61,7 +62,7 @@ class VehicleDeleteView(DeleteView):
 
 ###actions###
 
-class VehicleActionListView(ListView):
+class VehicleActionListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
     model = VehicleActionModel
     template_name = 'vehicle_record.html'
     context_object_name = 'actions'
@@ -70,7 +71,7 @@ class VehicleActionListView(ListView):
         veh = get_object_or_404(VehicleModel, id = self.kwargs.get('pk'))
         return VehicleActionModel.objects.filter(Vehicle=veh).order_by('ActionDate')
 
-class VehicleActionDeleteListView(ListView):
+class VehicleActionDeleteListView(ListView, LoginRequiredMixin, UserPassesTestMixin):
     model = VehicleActionModel
     template_name = 'vehicle_record_delete.html'
     context_object_name = 'actions'
@@ -98,25 +99,19 @@ def delete_action(request, pk, username):
 #     return redirect('app_forum:post_detail', pk=post_pk)
 
 
-class VehicleActionAddView(CreateView):
+class VehicleActionAddView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
     model= VehicleActionModel
     fields = ['ActionDate', 'Title', 'Description', 'Cost']
     template_name = 'vehicle_action_add.html'
 
     def form_valid(self, form):
-        # print('request_dict_keys:')
-        # print(self.request.__dict__.keys())
-        #
-        # print('request_resolver_match_keys:')
-        # print(self.request.resolver_match.kwargs['pk'])
-
         form.instance.owner= self.request.user
         # form.instance.post = Post.objects.get(pk=self.kwargs.get("pk"))
         # form.instance.Vehicle = VehicleModel.objects.get(pk=self.kwargs.get("pk"))
         form.instance.Vehicle = VehicleModel.objects.filter(id=self.request.resolver_match.kwargs['pk'])[0]
         return super().form_valid(form)
 
-class VehicleActionDetailView(UpdateView):
+class VehicleActionDetailView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = VehicleActionModel
     context_object_name = 'vehicle_action'
     # can change fields to match fields of VehicleModel

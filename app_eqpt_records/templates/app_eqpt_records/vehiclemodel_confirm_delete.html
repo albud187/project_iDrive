@@ -4,6 +4,9 @@
 <div class="container">
   <div class="jumbotron">
 
+    {% if user.is_authenticated %}
+    {% if vehicle.owner.username == user.username %}
+
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -16,7 +19,9 @@
             </div>
         </form>
     </div>
-
   </div>
+  {% endif %}
+  {% endif %}
+
 </div>
 {% endblock %}

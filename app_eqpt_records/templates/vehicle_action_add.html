@@ -3,7 +3,7 @@
 {% block body_block %}
 <div class="container">
   <div class="jumbotron">
-
+    {% if user.is_authenticated %}
 <div class="content-section">
     <form method="POST">
         {% csrf_token %}
@@ -18,5 +18,8 @@
 </div>
 </div>
 </div>
+{% else %}
+
+{% endif %}
 
 {% endblock %}
